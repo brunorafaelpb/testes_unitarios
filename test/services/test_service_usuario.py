@@ -10,6 +10,10 @@ class TestServiceUsuario:
         self.profissao_valida = "QA"
         self.profissao_invalida = 1
         self.profissao_none = None
+        self.ID_valido = 1
+        self.ID_inexistente = 999
+        self.ID_invalido = "1"
+        self.ID_none = None
 
     def test_add_usuario_valido(self):
         resultado_esperado = "Usuário adicionado"
@@ -46,7 +50,38 @@ class TestServiceUsuario:
         assert (result == resultado_esperado)
         assert (self.service.store.bd == store_esperado)
 
-#TODO Criar mais testes para as funções em service_usuario
+    def test_list_usuarios_valido(self):
+        self.service.add_usuario(self.nome_valido, self.profissao_valida)
+        result = self.service.list_usuarios()
+        assert (len(result) > 0)
+
+    def test_list_usuario_id_valido(self):
+        resultado_esperado = "ID: {} | Nome: {} | Profissão: {}".format(1, self.nome_valido, self.profissao_valida)
+        self.service.add_usuario(self.nome_valido, self.profissao_valida)
+        result = self.service.list_usuarios_id(self.ID_valido)
+        assert (len(result) > 0)
+        assert (result == resultado_esperado)
+
+    def test_list_usuario_id_inexistente(self):
+        resultado_esperado = "ID inválido"
+        self.service.add_usuario(self.nome_valido, self.profissao_valida)
+        result = self.service.list_usuarios_id(self.ID_inexistente)
+        assert (result == resultado_esperado)
+
+    def test_list_usuario_id_invalido(self):
+        resultado_esperado = "ID inválido"
+        self.service.add_usuario(self.nome_valido, self.profissao_valida)
+        result = self.service.list_usuarios_id(self.ID_invalido)
+        assert (result == resultado_esperado)
+
+    def test_list_usuario_id_none(self):
+        resultado_esperado = "ID inválido"
+        self.service.add_usuario(self.nome_valido, self.profissao_valida)
+        result = self.service.list_usuarios_id(self.ID_none)
+        assert (result == resultado_esperado)
+
+    # TODO Criar mais testes para as funções em service_usuario
+    # Falta completar os testes para remover e atualizar
     def test_remover_usuario(self):
         resultado_esperado = "Usuário {} removido".format(self.nome_valido)
         cadastrado = self.service.add_usuario(self.nome_valido, self.profissao_valida)

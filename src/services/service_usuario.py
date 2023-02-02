@@ -18,8 +18,24 @@ class ServiceUsuario:
             return "Usuário inválido"
 
     def list_usuarios(self):
+        lista_usuario = []
         for i in range(len(self.store.bd)):
-            return "ID:{} | Nome: {} | Profissão {}".format(i + 1, self.store.bd[i].nome, self.store.bd[i].profissao)
+            lista_usuario.append("ID: {} | Nome: {} | Profissão: {}".format(i + 1, self.store.bd[i].nome, self.store.bd[i].profissao))
+        return lista_usuario
+
+    def list_usuarios_id(self, id_usuario):
+        if id_usuario is not None:
+            if type(id_usuario) is int:
+                if id_usuario-1 <= len(self.store.bd):
+                    return "ID: {} | Nome: {} | Profissão: {}".format(id_usuario, self.store.bd[id_usuario-1].nome, self.store.bd[id_usuario-1].profissao)
+                else:
+                    return "ID inválido"
+            else:
+                return "ID inválido"
+        else:
+            return "ID inválido"
+
+
 
     def remove_usuario_id(self, id_usuario):
         usuario_removido = self.store.bd.pop(id_usuario-1)
