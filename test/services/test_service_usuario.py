@@ -5,10 +5,10 @@ class TestServiceUsuario:
     def setup(self):
         self.service = ServiceUsuario()
         self.nome_valido = "Bruno"
-        self.nome_invalido = 1
+        self.nome_int = 1
         self.nome_none = None
         self.profissao_valida = "QA"
-        self.profissao_invalida = 1
+        self.profissao_int = 1
         self.profissao_none = None
         self.ID_valido = 1
         self.ID_inexistente = 999
@@ -25,14 +25,14 @@ class TestServiceUsuario:
     def test_add_usuario_nome_valido_profissao_invalida(self):
         resultado_esperado ="Usuário inválido"
         store_esperado = []
-        result = self.service.add_usuario(self.nome_valido, self.profissao_invalida)
+        result = self.service.add_usuario(self.nome_valido, self.profissao_int)
         assert (result == resultado_esperado)
         assert (self.service.store.bd == store_esperado)
 
     def test_add_usuario_nome_invalida_profissao_valido(self):
         resultado_esperado = "Usuário inválido"
         store_esperado = []
-        result = self.service.add_usuario(self.nome_invalido, self.profissao_valida)
+        result = self.service.add_usuario(self.nome_int, self.profissao_valida)
         assert (result == resultado_esperado)
         assert (self.service.store.bd == store_esperado)
 
@@ -80,10 +80,29 @@ class TestServiceUsuario:
         result = self.service.list_usuarios_id(self.ID_none)
         assert (result == resultado_esperado)
 
-    # TODO Criar mais testes para as funções em service_usuario
-    # Falta completar os testes para remover e atualizar
     def test_remover_usuario(self):
-        resultado_esperado = "Usuário {} removido".format(self.nome_valido)
+        resultado_esperado = "Usuário excluído com sucesso"
         cadastrado = self.service.add_usuario(self.nome_valido, self.profissao_valida)
-        result = self.service.remove_usuario_id(1)
+        result = self.service.remove_usuario_id(self.ID_valido)
         assert (result == resultado_esperado)
+
+    def test_remover_usuario_ID_inexistente(self):
+        resultado_esperado = "Usuário não encontrado"
+        cadastrado = self.service.add_usuario(self.nome_valido, self.profissao_valida)
+        result = self.service.remove_usuario_id(self.ID_inexistente)
+        assert (result == resultado_esperado)
+
+    def test_remover_usuario_ID_none(self):
+        resultado_esperado = "ID inválido"
+        cadastrado = self.service.add_usuario(self.nome_valido, self.profissao_valida)
+        result = self.service.remove_usuario_id(self.ID_none)
+        assert (result == resultado_esperado)
+
+    def test_remover_usuario_ID_string(self):
+        resultado_esperado = "ID inválido"
+        cadastrado = self.service.add_usuario(self.nome_valido, self.profissao_valida)
+        result = self.service.remove_usuario_id(self.ID_invalido)
+        assert (result == resultado_esperado)
+
+    # TODO Criar testes para as funções em service_usuario
+    # Falta completar os testes para atualizar usuario

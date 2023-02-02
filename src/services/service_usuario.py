@@ -35,11 +35,16 @@ class ServiceUsuario:
         else:
             return "ID inválido"
 
-
-
     def remove_usuario_id(self, id_usuario):
-        usuario_removido = self.store.bd.pop(id_usuario-1)
-        return "Usuário {} removido".format(usuario_removido.nome)
+        if id_usuario is not None and type(id_usuario) is int:
+            for i in range(len(self.store.bd)):
+                if len(self.store.bd) > id_usuario-1:
+                    self.store.bd.pop(i)
+                    return "Usuário excluído com sucesso"
+                else:
+                    return "Usuário não encontrado"
+        else:
+            return "ID inválido"
 
     def update_usuario_nome(self, id_usuario, nome_novo):
         if nome_novo is not None:
