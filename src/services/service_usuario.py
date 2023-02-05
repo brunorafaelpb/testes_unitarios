@@ -47,22 +47,22 @@ class ServiceUsuario:
             return "ID inválido"
 
     def update_usuario_nome(self, id_usuario, nome_novo):
-        if nome_novo is not None:
-            if type(nome_novo) is str:
-                self.store.bd[id_usuario].nome = nome_novo
-                return "Usuário atualizado"
+        if nome_novo is not None and type(nome_novo) is str:
+            if len(self.store.bd) > id_usuario - 1:
+                self.store.bd[id_usuario-1].nome = nome_novo
+                return "Nome atualizado"
             else:
-                return "Nome inválido"
+                return "Usuário não encontrado"
         else:
             return "Nome inválido"
 
     def update_usuario_profissao(self, id_usuario, profissao_novo):
-        if profissao_novo is not None:
-            if type(profissao_novo) is str:
-                self.store.bd[id_usuario].profissao = profissao_novo
+        if profissao_novo is not None and type(profissao_novo) is str:
+            if len(self.store.bd) > id_usuario - 1:
+                self.store.bd[id_usuario-1].profissao = profissao_novo
                 return "Profissão atualizada"
             else:
-                return "Profissão inválida"
+                return "Usuário não encontrado"
         else:
             return "Profissão inválida"
 
